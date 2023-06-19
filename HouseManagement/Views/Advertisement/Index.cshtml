@@ -1,0 +1,60 @@
+﻿@model IEnumerable<HouseManagement.Models.Advertisement>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<h1>Объявления</h1>
+
+<p>
+    <a asp-action="SelectHouse">Добавить новое</a>
+</p>
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.description)
+                </th>
+                <th>
+                    @Html.Label("", "Дом")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="table-light">
+                        @Html.DisplayFor(modelItem => item.date)
+                    </td>
+                    <td class="table-light">
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td class="table-light">
+                        @Html.Label("", ViewBag.Names[i], htmlAttributes: new { @class = "control-label" })
+                    </td>
+                    <td>
+                        <a class="link-primary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Edit" asp-route-id="@item.id">Изменить</a>
+                        <br>
+                        <a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Delete" asp-route-id="@item.id">Удалить</a>
+                    </td>
+                </tr>
+                { i++; }
+            }
+        </tbody>
+    </table>
+}

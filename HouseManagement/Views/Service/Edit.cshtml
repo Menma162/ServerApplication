@@ -1,0 +1,153 @@
+﻿@model HouseManagement.Models.SettingsService
+
+@{
+    ViewBag.Title = "Редактирование";
+}
+
+<h2>Редактирование услуги</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <div class="text-danger">
+            @ViewBag.Message
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.idHouse)
+        @Html.HiddenFor(model => model.idService)
+        @Html.HiddenFor(model => model.paymentStatus)
+        <br>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Название услуги: " + ViewBag.NameService, htmlAttributes: new { @class = "control-label col-md-5" })
+            </div>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.valueRate, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.valueRate, new { htmlAttributes = new { @class = "form-control", @type="number", @step="0.01"} })
+                @Html.ValidationMessageFor(model => model.valueRate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br>
+
+        @if (ViewBag.HaveNormative == true)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.valueNormative, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.valueNormative, new { htmlAttributes = new { @class = "form-control", @type="number", @step="0.01" } })
+                    @Html.ValidationMessageFor(model => model.valueNormative, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.HaveCounter == true)
+        {
+            <div style="display:inline-flex">
+                <p>Имеется ли счетчик</p>&nbsp;&nbsp;&nbsp;&nbsp;
+                <div id="checkCounter">
+                    @Html.EditorFor(model => model.haveCounter)
+                </div>
+            </div>
+
+
+            <br>
+
+            <div id="forCounter" style="display:@(ViewBag.Display)">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.typeIMD, htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.CheckBox("typeIMDCounter", (bool)ViewData["type"], htmlAttributes: new { @class = "control-label col-md-1" })
+                    </div>
+                    @Html.Label("", "(Галочка - индвивидуальный, нет - общедомовой)", htmlAttributes: new { @class = "control-label col-md-5 fs-6" })
+                </div>
+
+                <br>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.startDateTransfer, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.startDateTransfer, new { htmlAttributes = new { @class = "form-control", @type="number" } })
+                        @Html.ValidationMessageFor(model => model.startDateTransfer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.endDateTransfer, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.endDateTransfer, new { htmlAttributes = new { @class = "form-control", @type="number" } })
+                        @Html.ValidationMessageFor(model => model.endDateTransfer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#checkCounter").click(function () {
+                        $('#forCounter').toggle()
+                    });
+                })
+            </script>
+
+        }
+
+        <br>
+        <div class="form-group">
+            @Html.Label("", "Периоды начислений", htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-10">
+                @Html.Label("", "Январь", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("January", (bool)ViewData["Check1"], htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.Label("", "Июль", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("July", (bool)ViewData["Check7"], htmlAttributes: new { @class = "control-label col-md-1" })
+
+                <br>
+                @Html.Label("", "Февраль", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("February", (bool)ViewData["Check2"], htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.Label("", "Август", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("August", (bool)ViewData["Check8"], htmlAttributes: new { @class = "control-label col-md-1" })
+                <br>
+                @Html.Label("", "Март", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("March", (bool)ViewData["Check3"], htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.Label("", "Сентябрь", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("September", (bool)ViewData["Check9"], htmlAttributes: new { @class = "control-label col-md-1" })
+                <br>
+                @Html.Label("", "Апрель", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("April", (bool)ViewData["Check4"], htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.Label("", "Октябрь", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("October", (bool)ViewData["Check10"], htmlAttributes: new { @class = "control-label col-md-1" })
+                <br>
+                @Html.Label("", "Май", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("May", (bool)ViewData["Check5"], htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.Label("", "Ноябрь", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("November", (bool)ViewData["Check11"], htmlAttributes: new { @class = "control-label col-md-1" })
+                <br>
+                @Html.Label("", "Июнь", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("June", (bool)ViewData["Check6"], htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.Label("", "Декабрь", htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.CheckBox("December", (bool)ViewData["Check12"],  htmlAttributes: new { @class = "control-label col-md-1" })
+            </div>
+        </div>
+
+        <br>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-dark" />
+            </div>
+        </div>
+    </div>
+}
+
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

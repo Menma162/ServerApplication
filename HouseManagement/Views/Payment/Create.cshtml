@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Добавление начислений</h1>
+
+
+<hr />
+@using (Html.BeginForm())
+{
+    <br />
+    <div class="text-danger">
+        @ViewBag.Message
+    </div>
+    <br />
+    @Html.AntiForgeryToken()
+    <div class="fw-bold fst-italic">
+        @Html.Label("", "Период: " + ViewBag.Period, htmlAttributes: new { @class = "control-label col-md-7" })
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Начислить" class="btn btn-dark" />
+        </div>
+    </div>
+}

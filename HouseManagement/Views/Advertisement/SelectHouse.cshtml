@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ModelCheckBox>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Создание объявления: Выбор домов</h1>
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>
+<br />
+<div class="text-danger">
+    @ViewBag.Message
+</div>
+<br />
+@using (Html.BeginForm())
+{
+    @if (Model.Count() == 0)
+    {
+        <h5>Список пуст</h5>
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.Label("", "Название", htmlAttributes: new { @class = "control-label col-md-5" })
+                </th>
+                <th>
+                    @Html.Label("", "Выбор", htmlAttributes: new { @class = "control-label col-md-5" })
+                </th>
+            </tr>
+            @{
+                int i = 0;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="table-light">
+                        <input type="text" name="ModelCheckBox[@i].id" value="@ViewBag.Houses[i].id" hidden />
+                        @Html.Label("", ViewBag.Houses[i].name, htmlAttributes: new { @class = "control-label col-md-5" })
+                    </td>
+                    <td class="table-light">
+                        <input type="checkbox" name="ModelCheckBox[@i].selected" value="true" />
+                        <input type="hidden" name="ModelCheckBox[@i].selected" value="false" />
+                    </td>
+                </tr>
+                i++;
+            }
+        </table>
+    }
+
+    if (Model.Count() != 0)
+    {
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Далее" class="btn btn-dark" />
+            </div>
+        </div>
+    }
+}

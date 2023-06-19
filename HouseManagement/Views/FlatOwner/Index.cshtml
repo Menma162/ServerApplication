@@ -1,0 +1,75 @@
+﻿@model IEnumerable<HouseManagement.Models.FlatOwner>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Владельцы квартир</h1>
+
+<p>
+    <a asp-action="SelectHouse">Добавить нового</a>
+</p>
+
+<form method="get" action="@Url.Action("Index", "FlatOwner")">
+    <div class="input-group">
+        <input type="text" id="search" placeholder="ФИО" name="search" />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="text" id="searchHouse" placeholder="Название дома" name="searchHouse" />
+        <input type="submit" value="Поиск" class="btn btn-success" />
+    </div>
+</form>
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.Label("", "Дом", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th></th>
+        </tr>
+
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.fullName)
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.phoneNumber)
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td class="table-light">
+                    @Html.Label("", ViewBag.Names[i], htmlAttributes: new { @class = "control-label col-md-5" })
+                </td>
+                <td class="table-light">
+                    <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Details" asp-route-id="@item.id">Подробнее</a>
+                    <br>
+                    <a class="link-primary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Edit" asp-route-id="@item.id">Изменить</a>
+                    <br>
+                    <a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Delete" asp-route-id="@item.id">Удалить</a>
+                </td>
+            </tr>
+            { i++; }
+        }
+
+    </table>
+}

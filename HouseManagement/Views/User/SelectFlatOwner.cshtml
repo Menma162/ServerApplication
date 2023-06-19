@@ -1,0 +1,82 @@
+﻿@model IEnumerable<HouseManagement.Models.FlatOwner>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Выбор владельца квартиры</h1>
+<br />
+<div>
+    @Html.ActionLink("Вернуться к выбору дома", "SelectHouseOne")
+</div>
+<br />
+<form method="get" action="@Url.Action("SelectFlatOwner", "User")">
+    <div class="input-group">
+        @Html.Hidden("idHouse", ViewBag.IdHouse as int?)
+        <input type="text" id="search" placeholder="ФИО" name="search" />
+        <input type="submit" value="Поиск" class="btn btn-success" />
+    </div>
+</form>
+
+<br />
+<div class="text-danger">
+    @ViewBag.Message
+</div>
+<br />
+<div class="form-group">
+    <div class="col-md-10">
+        @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+    </div>
+</div>
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.fullName)
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.phoneNumber)
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td class="table-light">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.Hidden("idHouse", ViewBag.IdHouse as int?)
+                        @Html.Hidden("idFlatOwner", item.id)
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Выбрать" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    }
+                </td>
+            </tr>
+
+        }
+
+
+    </table>
+}

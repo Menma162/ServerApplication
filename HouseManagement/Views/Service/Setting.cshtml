@@ -1,0 +1,113 @@
+﻿@model IEnumerable<HouseManagement.Models.SettingsService>
+
+@{
+    ViewData["Title"] = "Setting";
+}
+
+<h1>Настройка начисляемых услуг</h1>
+
+<br>
+@using (Html.BeginForm())
+{
+    <div class="text-danger">
+        @ViewBag.Message
+    </div>
+
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("", "Название услуги", htmlAttributes: new { @class = "control-label col-md-7" })
+            </th>
+            <th>
+                @Html.Label("", "Статус начисления", htmlAttributes: new { @class = "control-label col-md-7" })
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.ColdWaterName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("ColdWater", (bool)ViewBag.ColdWater)
+            </td>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.HotWaterName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("HotWater", (bool)ViewBag.HotWater)
+            </td>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.GasName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("Gas", (bool)ViewBag.Gas)
+            </td>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.ElectricityName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("Electricity", (bool)ViewBag.Electricity)
+            </td>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.HeatingName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("Heating", (bool)ViewBag.Heating)
+            </td>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.CapitalRepairsName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("CapitalRepairs", (bool)ViewBag.CapitalRepairs)
+            </td>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.IntercomName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("Intercom", (bool)ViewBag.Intercom)
+            </td>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.ElevatorName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("Elevator", (bool)ViewBag.Elevator)
+            </td>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.GarbageDisposalName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("GarbageDisposal", (bool)ViewBag.GarbageDisposal)
+            </td>
+        </tr>
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.WaterDisposalName, htmlAttributes: new { @class = "control-label col-md-7" })
+            </td>
+            <td class="table-light">
+                @Html.CheckBox("WaterDisposal", (bool)ViewBag.WaterDisposal)
+            </td>
+        </tr>
+    </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить" class="btn btn-dark" />
+        </div>
+    </div>
+}

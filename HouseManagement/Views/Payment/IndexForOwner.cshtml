@@ -1,0 +1,85 @@
+﻿@model IEnumerable<HouseManagement.Models.Payment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Начисления</h1>
+
+
+<form method="get" action="@Url.Action("Index", "Payment")">
+    <div class="input-group">
+        <div>
+            <h4>Фильтрация</h4>
+            <input type="text" id="searchFlat" placeholder="Номер квартиры" name="searchFlat" />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            <input type="text" id="searchPeriod" placeholder="Период" name="searchPeriod" />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            @Html.DisplayName("Услуга")
+            @Html.DropDownList("name", ViewBag.NamesFilters as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            @Html.DisplayName("Статус оплаты")
+            @Html.DropDownList("status", ViewBag.StatusesFilters as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <br />
+            <br />
+            <input type="submit" value="Фильтровать" class="btn btn-success" />
+        </div>
+    </div>
+</form>
+<br>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("", "Название услуги", htmlAttributes: new { @class = "control-label" })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.period)
+        </th>
+        <th>
+            @Html.Label("", "Номер квартиры", htmlAttributes: new { @class = "control-label" })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.penalties)
+        </th>
+        <th>
+            @Html.Label("", "Необходимо оплатить до", htmlAttributes: new { @class = "control-label" })
+        </th>
+        <th></th>
+    </tr>
+    @{
+        int i = 0;
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="table-light">
+                @Html.Label("", ViewBag.Names[i], htmlAttributes: new { @class = "control-label" })
+            </td>
+            <td class="table-light">
+                @Html.DisplayFor(modelItem => item.period)
+            </td>
+            <td class="table-light">
+                @Html.Label("", ViewBag.FlatNumbers[i], htmlAttributes: new { @class = "control-label" })
+            </td>
+            <td class="table-light">
+                @Html.DisplayFor(modelItem => item.amount)
+            </td>
+            <td class="table-light">
+                @Html.DisplayFor(modelItem => item.penalties)
+            </td>
+
+            <td class="table-light text-danger">
+                @Html.Label("", ViewBag.Dates[i] + " числа", htmlAttributes: new { @class = "control-label" })
+            </td>
+        </tr>
+        i++;
+    }
+
+</table>

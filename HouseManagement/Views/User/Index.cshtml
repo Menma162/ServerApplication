@@ -1,0 +1,106 @@
+﻿@model IEnumerable<HouseManagement.Models.UserModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Пользователи</h1>
+
+@if (User.IsInRole("MainAdmin"))
+{
+    <p>
+        <a asp-action="SelectHouse">Добавить нового администратора</a>
+    </p>
+}
+@if (User.IsInRole("HouseAdmin"))
+{
+    <p>
+        <a asp-action="CreateAdminUser">Добавить нового администратора</a>
+    </p>
+    <p>
+        <a asp-action="SelectHouseOne">Добавить нового пользователя владельца квартиры</a>
+    </p>
+}
+
+<form method="get" action="@Url.Action("Index", "User")">
+    <div class="input-group">
+        <input type="text" id="search" placeholder="Email" name="search" />
+        <input type="submit" value="Поиск" class="btn btn-success" />
+    </div>
+</form>
+
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.role)
+            </th>
+            @if (User.IsInRole("HouseAdmin"))
+            {
+                <th>
+                    @Html.Label("", "ФИО владельца", htmlAttributes: new { @class = "control-label" })
+                </th>
+            }
+            @if (User.IsInRole("MainAdmin"))
+            {
+                <th>
+                    @Html.Label("", "Названия домов", htmlAttributes: new { @class = "control-label" })
+                </th>
+            }
+            <th></th>
+        </tr>
+
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td class="table-light">
+                    @Html.Label("", ViewBag.Roles[i], htmlAttributes: new { @class = "control-label" })
+                </td>
+                @if (User.IsInRole("HouseAdmin"))
+                {
+                    <td class="table-light">
+                        @Html.Label("", ViewBag.User[i], htmlAttributes: new { @class = "control-label" })
+                    </td>
+                }
+                <td class="table-light">
+                    @for (int q = 0; q < ViewBag.NamesHouses[i].Count; q++)
+                        @Html.Label("", ViewBag.NamesHouses[i][q], htmlAttributes: new { @class = "control-label" })
+
+                    </td>
+                    @if (User.IsInRole("MainAdmin"))
+                {
+                    <td class="table-light">
+                        <a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Delete" asp-route-id="@item.id">Удалить</a>
+                    </td>
+                }
+                <td class="table-light">
+                    @if (ViewBag.Roles[i] == "Владелец квартиры")
+                    {
+                        <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="EditLogin" asp-route-id="@item.id">Изменить email</a>
+                        <br>
+                        <a class="link-primary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="EditPassword" asp-route-id="@item.id">Изменить пароль</a>
+                        <br>
+                        <a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Delete" asp-route-id="@item.id">Удалить</a>
+                    }
+                </td>
+            </tr>
+            { i++; }
+        }
+
+    </table>
+}

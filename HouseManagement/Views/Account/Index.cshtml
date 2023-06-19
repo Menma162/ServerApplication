@@ -1,0 +1,79 @@
+﻿@model HouseManagement.Models.UserModel
+
+@{
+    ViewBag.Title = "Аккаунт";
+}
+
+@if (User.IsInRole("HouseAdmin"))
+{
+    <h2>Аккаунт администратора дома</h2>
+}
+@if (User.IsInRole("MainAdmin"))
+{
+    <h2>Аккаунт администратора</h2>
+}
+@if (User.IsInRole("FlatOwner"))
+{
+    <h2>Аккаунт владельца квартиры</h2>
+}
+
+<br />
+<hr />
+
+<dt>
+    @Html.DisplayNameFor(model => model.email)
+</dt>
+<dd>
+    @Html.DisplayFor(model => model.email)
+</dd>
+
+
+<br />
+<a class="nav-link text-dark bg-success bg-opacity-50" style="width: 11rem" asp-area="" asp-controller="Account" asp-action="EditLogin" asp-route-id=@ViewBag.Id>Изменить логин</a>
+<br />
+<a class="nav-link text-dark bg-success bg-opacity-50" style="width: 11rem" asp-area="" asp-controller="Account" asp-action="EditPassword" asp-route-id=@ViewBag.Id>Изменить пароль</a>
+<br />
+<a class="nav-link text-dark bg-success bg-opacity-50" style="width: 8rem" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-id=@ViewBag.Id>Выход</a>
+
+@if (User.IsInRole("FlatOwner"))
+{
+    <br>
+    <h1>Квартиры</h1>
+    <br>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("", "Номер квартиры", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.Label("", "Лицевой счет", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.Label("", "Количество зарегистрированных жителей", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.Label("", "Количество владельцев жилья", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th></th>
+        </tr>
+
+        @for (int i = 0; i < ViewBag.Flats.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Html.Label("", ViewBag.Flats[i].flatNumber, htmlAttributes: new { @class = "control-label col-md-5" })
+                </td>
+                <td>
+                    @Html.Label("", ViewBag.Flats[i].personalAccount, htmlAttributes: new { @class = "control-label col-md-5" })
+                </td>
+                <td>
+                    @Html.Label("", ViewBag.Flats[i].numberOfRegisteredResidents.ToString(), htmlAttributes: new { @class = "control-label col-md-5" })
+                </td>
+                <td>
+                    @Html.Label("", ViewBag.Flats[i].numberOfOwners.ToString(), htmlAttributes: new { @class = "control-label col-md-5" })
+                </td>
+            </tr>
+        }
+    </table>
+}
+

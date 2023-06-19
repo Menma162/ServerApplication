@@ -1,0 +1,91 @@
+﻿@model HouseManagement.Models.Counter
+
+@{
+    ViewBag.Title = "Создание";
+}
+
+<h2>Создание счетчика: Добавление информации</h2>
+
+
+@using (Html.BeginForm())
+{
+
+    @if (ViewBag.Flat != null)
+        @Html.Hidden("idFlat", ViewBag.Flat.id as int?)
+
+    @Html.Hidden("idHouse", ViewBag.IdHouse as int?)
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+
+        <div>
+            @Html.ActionLink("Вернуться к выбору квартиры", "SelectFlat", new {@id = ViewBag.IdHouse as int?})
+        </div>
+        <br>
+        <div class="text-danger">
+            @ViewBag.Message
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <br>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+            </div>
+        </div>
+        <br>
+        @if (ViewBag.Flat != null)
+        @Html.Label("", "Квартира №" + ViewBag.Flat.flatNumber, htmlAttributes: new { @class = "control-label col-md-5" })
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Тип: " + ViewBag.Type, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <br>
+        <div class="form-group">
+            @Html.Label("", "Наименование" , htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-10">
+                @Html.DropDownList("name", ViewBag.Names as SelectList, new { htmlAttributes = new { @class = "dropdown-toggle" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.number, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.number, new { htmlAttributes = new { @class = "form-control", @type="number"} })
+                @Html.ValidationMessageFor(model => model.number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dateLastVerification, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                    @Html.EditorFor(model => model.dateLastVerification, new { htmlAttributes = new { @class = "form-control", @type="date" } })
+                @Html.ValidationMessageFor(model => model.dateLastVerification, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dateNextVerification, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                    @Html.EditorFor(model => model.dateNextVerification, new { htmlAttributes = new { @class = "form-control", @type="date" } })
+                @Html.ValidationMessageFor(model => model.dateNextVerification, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Создать" asp-action="AddInfoCreate" class="btn btn-dark" />
+            </div>
+        </div>
+        <br>
+    </div>
+}
+
+<br />

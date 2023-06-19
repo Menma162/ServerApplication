@@ -1,0 +1,103 @@
+﻿@model IEnumerable<HouseManagement.Models.Payment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Начисления</h1>
+
+@if (User.IsInRole("HouseAdmin"))
+{
+    <p>
+        <a asp-action="Create">Добавить начисления</a>
+    </p>
+}
+
+<form method="get" action="@Url.Action("Index", "Payment")">
+    <div class="input-group">
+        <div>
+            <h4>Фильтрация</h4>
+            <input type="text" id="searchFlat" placeholder="Номер квартиры" name="searchFlat" />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            <input type="text" id="searchPeriod" placeholder="Период" name="searchPeriod" />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            <input type="text" id="searchHouse" placeholder="Название дома" name="searchHouse" />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            @Html.DisplayName("Услуга")
+            @Html.DropDownList("name", ViewBag.NamesFilters as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <br />
+            <br />
+            <input type="submit" value="Фильтровать" class="btn btn-success" />
+        </div>
+    </div>
+</form>
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("", "Название услуги", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.period)
+            </th>
+            <th>
+                @Html.Label("", "Номер квартиры", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.penalties)
+            </th>
+            <th>
+                @Html.Label("", "Дом")
+            </th>
+            <th></th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="table-light">
+                    @Html.Label("", ViewBag.Names[i], htmlAttributes: new { @class = "control-label" })
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.period)
+                </td>
+                <td class="table-light">
+                    @Html.Label("", ViewBag.FlatNumbers[i], htmlAttributes: new { @class = "control-label" })
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.amount)
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.penalties)
+                </td>
+                <td class="table-light">
+                    @Html.Label("", ViewBag.NamesHouses[i], htmlAttributes: new { @class = "control-label" })
+                </td>
+
+                @if (User.IsInRole("HouseAdmin"))
+                {
+                    <td class="table-light">
+                        <a class="link-primary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Edit" asp-route-id="@item.id">Изменить</a>
+                    </td>
+                }
+            </tr>
+            i++;
+        }
+
+    </table>
+}

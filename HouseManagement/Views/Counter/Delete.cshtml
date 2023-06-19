@@ -1,0 +1,83 @@
+﻿@model HouseManagement.Models.Counter
+
+@{
+    ViewBag.Title = "Удаление";
+}
+
+<h2>Удаление счетчика</h2>
+<br />
+<h3>Вы уверены, что хотите удалить этот счетчик?</h3>
+<div>
+    <hr />
+    <div class="text-danger">
+        @ViewBag.Message
+    </div>
+    <br>
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+        </div>
+    </div>
+    <br>
+    @if (ViewBag.FlatNumber != null)
+    {
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Номер квартиры: " + ViewBag.FlatNumber, htmlAttributes: new { @class = "control-label col-md-5" })
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.Label("", "Наименование: " + ViewBag.Name, htmlAttributes: new { @class = "control-label col-md-5" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.Label("", "Тип: " + ViewBag.Type, htmlAttributes: new { @class = "control-label col-md-5" })
+        </div>
+    </div>
+    <br>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.number)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.number)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.dateLastVerification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.dateLastVerification)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.dateNextVerification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.dateNextVerification)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.used)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.used)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-dark" />
+        </div>
+    }
+</div>
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

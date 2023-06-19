@@ -1,0 +1,99 @@
+﻿@model IEnumerable<HouseManagement.Models.Complaint>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Заявки</h1>
+
+@if (User.IsInRole("FlatOwner"))
+{
+    <p>
+        <a asp-action="Create">Добавить новую</a>
+    </p>
+}
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.photo)
+                </th>
+                <th>
+                    @Html.Label("", "Номер квартиры", htmlAttributes: new { @class = "control-label" })
+                </th>
+                <th>
+                    @Html.Label("", "Дом")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+                string? status = "";
+            }
+            @foreach (var item in Model)
+            {
+                status = item.status;
+                <tr>
+                    <td class="table-light">
+                        @Html.DisplayFor(modelItem => item.date)
+                    </td>
+                    <td class="table-light">
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td class="table-light">
+                        @Html.DisplayFor(modelItem => item.status)
+                    </td>
+                    <td class="table-light">
+                        @if (ViewBag.Photos[i] != null)
+                        {
+                            <div class="divForPhoto"><img id="imagePreview" width="500" height="400" src="data:image/jpeg;base64,@(ViewBag.Photos[i])"></div>
+                        }
+                    </td>
+                    <td class="table-light">
+                        @Html.Label("", ViewBag.NumbersFlats[i], htmlAttributes: new { @class = "control-label" })
+                    </td>
+                    <td class="table-light">
+                        @Html.Label("", ViewBag.Names[i], htmlAttributes: new { @class = "control-label" })
+                    </td>
+                    <td>
+                        @if ((status == "Отправлена" && User.IsInRole("FlatOwner")) || User.IsInRole("HouseAdmin"))
+                        {
+                            if (User.IsInRole("FlatOwner"))
+                            {
+                                <a class="link-primary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="EditFlatOwner" asp-route-id="@item.id">Изменить</a>
+                            }
+                            else
+                            {
+                                <a class="link-primary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="EditAdmin" asp-route-id="@item.id">Изменить</a>
+                            }
+                            <br>
+                            <a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Delete" asp-route-id="@item.id">Удалить</a>
+                        }
+                    </td>
+                </tr>
+                {
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+}

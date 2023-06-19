@@ -1,0 +1,74 @@
+﻿@model HouseManagement.Models.Complaint
+
+@{
+    ViewBag.Title = "Редактирование заявки";
+}
+
+<h2>Редактирование заявки</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="text-danger">
+            @ViewBag.Message
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.idFlat)
+        @Html.HiddenFor(model => model.date)
+        @Html.HiddenFor(model => model.photo)
+        @Html.HiddenFor(model => model.description)
+
+        <br>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+            </div>
+        </div>
+        <br>
+        <div class="fw-bold fst-italic">
+            @Html.DisplayNameFor(model => model.date)
+            @Html.Label("", ViewBag.Date, htmlAttributes: new { @class = "control-label font-weight-normal"})
+        </div>
+
+        <br>
+        @Html.Label("", "Номер квартиры - " + ViewBag.FlatNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+        <br>
+        @Html.Label("", "Описание: " + Model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.DropDownList("newStatus", ViewBag.Statuses as SelectList, new { htmlAttributes = new { @class = "dropdown-toggle", @value=Model.status } })
+            </div>
+        </div>
+
+        <div class="mb-5 mt-4">
+            <h4>Фото</h4>
+            <div class="containerParentFlexMany mt-4">
+                @if (ViewBag.Photo != null)
+                {
+                    <div class="divForPhoto"><img id="imagePreview" width="200" height="160" src="data:image/jpeg;base64,@(ViewBag.Photo)"></div>
+                }
+                else
+                {
+                    @Html.Label("", "Отсутствует", htmlAttributes: new { @class = "control-label col-md-2" })
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-dark" />
+            </div>
+        </div>
+        <br>
+    </div>
+}
+
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

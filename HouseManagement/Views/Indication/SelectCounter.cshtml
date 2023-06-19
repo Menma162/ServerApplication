@@ -1,0 +1,93 @@
+﻿@model IEnumerable<HouseManagement.Models.Counter>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Передача показаний: Выбор счетчика</h1>
+<br />
+<div>
+    @Html.ActionLink("Вернуться к выбору квартиры", "SelectFlat", new {@id = ViewBag.IdHouse as int?})
+</div>
+
+<br />
+<div class="text-danger">
+    @ViewBag.Message
+</div>
+<br>
+<div class="form-group">
+    <div class="col-md-10">
+        @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+    </div>
+</div>
+<br>
+@if (ViewBag.Flat != null)
+{
+    @Html.Label("", "Квартира №" + ViewBag.Flat.flatNumber, htmlAttributes: new { @class = "control-label col-md-5" })
+}
+<div class="form-group">
+    <div class="col-md-10">
+        @Html.Label("", "Тип: " + ViewBag.Type, new { htmlAttributes = new { @class = "control-label col-md-5" } })
+    </div>
+</div>
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("", "Услуга", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.number)
+            </th>
+            <th>
+                @Html.Label("", "Сроки передачи", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th></th>
+        </tr>
+
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="table-light">
+                    @Html.Label("", ViewBag.Names[i], htmlAttributes: new { @class = "control-label" })
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.number)
+                </td>
+                <td class="table-light">
+                    <div class="text-danger">
+                        @Html.Label("", ViewBag.Deadlines[i], htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </td>
+                <td class="table-light">
+                    @using (Html.BeginForm())
+                    {
+                        if (ViewBag.Can[i] == true)
+                        {
+                            <div>
+                                @if (ViewBag.Flat != null)
+                                    @Html.Hidden("idFlat", ViewBag.Flat.id as int?)
+
+                                    @Html.Hidden("idHouse", ViewBag.IdHouse as int?)
+                                    @Html.Hidden("idCounter", item.id)
+                                    <input type="submit" asp-action="SelectCounter" value="Выбрать" class="btn btn-primary" />
+                                </div>
+                        }
+                    }
+                </td>
+            </tr>
+
+            i++;
+        }
+
+    </table>
+}

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<HouseManagement.Models.Flat>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Передача показания: Выбор квартиры</h1>
+<br />
+<form method="get" action="@Url.Action("SelectFlat", "Counter")">
+    <div class="input-group">
+        <input type="text" id="search" placeholder="Номер квартиры" name="search" />
+        <input type="submit" value="Поиск" class="btn btn-success" />
+    </div>
+</form>
+
+<br />
+<div class="text-danger">
+    @ViewBag.Message
+</div>
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.flatNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.personalAccount)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.flatNumber)
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.personalAccount)
+                </td>
+                <td class="table-light">
+                    @using (Html.BeginForm())
+                    {
+                        <div>
+                            @Html.Hidden("idFlat", item.id)
+                            <input type="submit" value="Выбрать" class="btn btn-primary" />
+                        </div>
+                    }
+                </td>
+            </tr>
+
+        }
+    </table>
+}
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

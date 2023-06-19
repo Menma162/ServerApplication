@@ -1,0 +1,80 @@
+﻿@model HouseManagement.Models.Payment
+
+@{
+    ViewBag.Title = "Редактирование";
+}
+
+<h2>Редактирование начисления</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <div class="text-danger">
+            @ViewBag.Message
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.idService)
+        @Html.HiddenFor(model => model.period)
+        @Html.HiddenFor(model => model.idFlat)
+        <br>
+        
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Название услуги: " + ViewBag.NameService, htmlAttributes: new { @class = "control-label col-md-5" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Номер квартиры: " + ViewBag.NumberFlat, htmlAttributes: new { @class = "control-label col-md-5" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Период: " + ViewBag.Period, htmlAttributes: new { @class = "control-label col-md-5" })
+            </div>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.amount, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control", @type="number", @step="0.01", @id="amount", @name="amount"} })
+                @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.penalties, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.penalties, new { htmlAttributes = new { @class = "form-control", @type="number", @step="0.01" }})
+                @Html.ValidationMessageFor(model => model.penalties, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <br>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-dark" />
+            </div>
+        </div>
+    </div>
+}
+
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

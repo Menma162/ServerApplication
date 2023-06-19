@@ -1,0 +1,43 @@
+﻿@model IEnumerable<HouseManagement.Models.House>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Создание квартиры: Выбор дома</h1>
+
+<form method="get" action="@Url.Action("SelectHouse", "Counter")">
+    <div class="input-group">
+        <input type="text" id="search" placeholder="Название" name="search" />
+        <input type="submit" value="Поиск" class="btn btn-success" />
+    </div>
+</form>
+
+<br />
+<div class="text-danger">
+    @ViewBag.Message
+</div>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="table-light">
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td class="table-light">
+                <div>
+                    <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Create" asp-route-id="@item.id">Выбрать</a>
+                </div>
+            </td>
+        </tr>
+
+    }
+</table>

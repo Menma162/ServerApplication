@@ -1,0 +1,91 @@
+﻿@model IEnumerable<HouseManagement.Models.Flat>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Передача показаний: Выбор квартиры</h1>
+<br />
+<div>
+    @Html.ActionLink("Вернуться к выбору дома", "SelectHouse")
+</div>
+<br>
+<form method="get" action="@Url.Action("SelectFlat", "Counter")">
+    <div class="input-group">
+        <input type="text" id="search" placeholder="Номер квартиры" name="search" />
+        @Html.Hidden("idHouse", ViewBag.IdHouse as int?)
+        <input type="submit" value="Поиск" class="btn btn-success" />
+    </div>
+</form>
+
+<br />
+<div class="text-danger">
+    @ViewBag.Message
+</div>
+<br>
+<div class="form-group">
+    <div class="col-md-10">
+        @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+    </div>
+</div>
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.flatNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.personalAccount)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            if (item != null)
+            {
+                <tr>
+                    <td class="table-light">
+                        @Html.DisplayFor(modelItem => item.flatNumber)
+                    </td>
+                    <td class="table-light">
+                        @Html.DisplayFor(modelItem => item.personalAccount)
+                    </td>
+                    <td class="table-light">
+                        @using (Html.BeginForm())
+                        {
+                            <div>
+                                @Html.Hidden("idFlat", item.id)
+                                @Html.Hidden("idHouse", ViewBag.IdHouse as int?)
+                                <input type="submit" value="Выбрать" class="btn btn-primary" />
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @using (Html.BeginForm())
+                {
+                    <div>
+                        @Html.Hidden("idFlat", null)
+                        @Html.Hidden("idHouse", ViewBag.IdHouse as int?)
+                        @Html.Label("", "Общедомовой прибор учета", htmlAttributes: new { @class = "control-label"})
+                        <input type="submit" value="Выбрать" class="btn btn-primary" />
+                    </div>
+                }
+            }
+
+        }
+    </table>
+}
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

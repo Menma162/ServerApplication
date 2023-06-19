@@ -1,0 +1,92 @@
+﻿@model HouseManagement.Models.Indication
+
+@{
+    ViewBag.Title = "Создание";
+}
+
+<h2>Передача показаний: Добавление информации</h2>
+
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <br>
+        <div class="text-danger">
+            @ViewBag.Message
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("idCounter", ViewBag.IdCounter as int?)
+        @if (ViewBag.Flat != null)
+        {
+            @Html.Hidden("idFlat", ViewBag.IdFlat as int?)
+        }
+
+
+        <br>
+        <div class="fw-bold fst-italic">
+            @Html.DisplayNameFor(model => model.dateTransfer)
+            @Html.Label("", ViewBag.DateNow, htmlAttributes: new { @class = "control-label font-weight-normal"})
+        </div>
+        <br>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+            </div>
+        </div>
+        <br>
+        @if (ViewBag.Flat != null)
+        {
+            @Html.Label("", "Квартира №" + ViewBag.Flat.flatNumber, htmlAttributes: new { @class = "control-label col-md-5" })
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Тип счетчика: " + ViewBag.Type, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Наименование счетчика: " + ViewBag.Name, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Номер счетчика: " + ViewBag.Number, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <br>
+
+        <div class="fw-bold fst-italic">
+            @if (ViewBag.LastIndication != null)
+            {
+                @Html.Label("", "Показание за предыдущий месяц - " + ViewBag.LastIndication, htmlAttributes: new { @class = "control-label font-weight-normal"})
+            }
+            else
+            {
+                @Html.Label("", "Показание за предыдущий месяц - Отсутствует", htmlAttributes: new { @class = "control-label font-weight-normal"})
+            }
+        </div>
+
+        <br>
+        <div class="form-group">
+            @Html.LabelFor(model => model.value, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.value, new { htmlAttributes = new { @class = "form-control", @type="number"} })
+                @Html.ValidationMessageFor(model => model.value, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Передать" asp-action="AddInfoCreate" class="btn btn-dark" />
+            </div>
+        </div>
+        <br>
+    </div>
+}
+<br />

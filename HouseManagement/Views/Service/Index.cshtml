@@ -1,0 +1,64 @@
+﻿@model IEnumerable<HouseManagement.Models.SettingsService>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Начисляемые услуги</h1>
+
+<p>
+    <a asp-action="Setting">Настроить начисляемые услуги</a>
+</p>
+<br />
+@if (Model.Count() == 0)
+{
+    <h5>Список пуст</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("", "Название услуги", htmlAttributes: new { @class = "control-label col-md-5" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.valueRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.valueNormative)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.paymentPeriod)
+            </th>
+            <th></th>
+        </tr>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="table-light">
+                    @Html.Label("", ViewBag.Names[i], htmlAttributes: new { @class = "control-label col-md-7" })
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.valueRate)
+                </td>
+                <td class="table-light">
+                    @Html.DisplayFor(modelItem => item.valueNormative)
+                </td>
+                <td class="table-light">
+                    @Html.Label("", ViewBag.Periods[i], htmlAttributes: new { @class = "control-label col-md-7" })
+                </td>
+
+                <td class="table-light">
+                    <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Details" asp-route-id="@item.id">Подробнее</a>
+                    <br>
+                    <a class="link-primary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-action="Edit" asp-route-id="@item.id">Изменить</a>
+                </td>
+            </tr>
+            i++;
+        }
+
+    </table>
+}

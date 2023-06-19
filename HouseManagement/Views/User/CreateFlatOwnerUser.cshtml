@@ -1,0 +1,66 @@
+﻿@model HouseManagement.Models.UserModel
+
+@{
+    ViewBag.Title = "Создание";
+}
+
+<h2>Создание пользователя</h2>
+<br />
+<div>
+    @Html.ActionLink("Вернуться к выбору владельца", "SelectFlatOwner", new {@id = ViewBag.IdHouse as int?})
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="text-danger">
+            @ViewBag.Message
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("idFlatOwner", ViewBag.IdFlatOwner as int?)
+        @Html.Hidden("idHouse", ViewBag.IdHouse as int?)
+        @Html.Hidden("email", ViewBag.Email as int?)
+        <br>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Тип пользователя - " + ViewBag.Role, htmlAttributes: new { @class = "control-label col-md-5" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("", "Email:" + ViewBag.Email , htmlAttributes: new { @class = "control-label col-md-5" })
+            </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @type="text"} })
+                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Создать" class="btn btn-dark" />
+            </div>
+        </div>
+        <br>
+    </div>
+}
+
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

@@ -1,0 +1,94 @@
+﻿@model HouseManagement.Models.Flat
+
+@{
+    ViewBag.Title = "Удаление";
+}
+
+<h2>Удаление квартиры</h2>
+<br />
+<h3>Вы уверены, что хотите удалить эту квартиру?</h3>
+<div>
+    <hr />
+    <div class="text-danger">
+        @ViewBag.Message
+    </div>
+    <br>
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+        </div>
+    </div>
+    <br>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.personalAccount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.personalAccount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.flatNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.flatNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.totalArea)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.totalArea)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.usableArea)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usableArea)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.numberOfRooms)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.numberOfRooms)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.entranceNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.entranceNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.numberOfRegisteredResidents)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.numberOfRegisteredResidents)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.numberOfOwners)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.numberOfOwners)
+        </dd>
+        <dt>
+            @Html.Label("", "Владелец квартиры: ", htmlAttributes: new { @class = "control-label font-weight-normal"})
+        </dt>
+        <dd>
+            @if (ViewBag.FullName != null)
+                @Html.Label("", ViewBag.FullName, htmlAttributes: new { @class = "control-label font-weight-normal"})
+            else @Html.Label("", "Отсутствует", htmlAttributes: new { @class = "control-label font-weight-normal"})
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-dark" />
+        </div>
+    }
+</div>
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

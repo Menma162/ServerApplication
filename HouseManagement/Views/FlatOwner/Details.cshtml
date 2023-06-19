@@ -1,0 +1,102 @@
+﻿@model HouseManagement.Models.FlatOwner
+
+@{
+    ViewBag.Title = "Подробная информация";
+}
+
+<h2>Подробная информация о владельце квартиры</h2>
+<br />
+<div>
+    <hr />
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.Label("", "Дом - " + ViewBag.NameHouse, htmlAttributes: new { @class = "control-label col-md-3" })
+        </div>
+    </div>
+    <br>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fullName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fullName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.phoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.phoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+        <div class="row">
+            <a class="nav-link text-dark bg-primary bg-opacity-50" style="width: 12rem" asp-area="" asp-controller="FlatOwner" asp-action="Edit" asp-route-id=@ViewBag.Id>Изменить владельца</a>
+            <a class="nav-link text-dark bg-danger bg-opacity-50" style="width: 12rem" asp-area="" asp-controller="FlatOwner" asp-action="Delete" asp-route-id=@ViewBag.Id>Удалить владельца</a>
+        </div>
+    </dl>
+
+
+    <br />
+    <hr />
+    <h4>Квартиры владельца</h4>
+    <br />
+    @if (ViewBag.Flats != null)
+    {
+        <table class="table h-25">
+            <tr>
+                <th>
+                    @Html.Label("", "Номер квартиры", htmlAttributes: new { @class = "control-label col-md-5" })
+                </th>
+                <th>
+                    @Html.Label("", "Лицевой счет", htmlAttributes: new { @class = "control-label col-md-5" })
+                </th>
+                <th>
+                    @Html.Label("", "Количество зарегистрированных жителей", htmlAttributes: new { @class = "control-label col-md-5" })
+                </th>
+                <th>
+                    @Html.Label("", "Количество владельцев жилья", htmlAttributes: new { @class = "control-label col-md-5" })
+                </th>
+                <th></th>
+            </tr>
+            @for (int i = 0; i < ViewBag.Flats.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.Label("", ViewBag.Flats[i].flatNumber, htmlAttributes: new { @class = "control-label col-md-5" })
+                    </td>
+                    <td>
+                        @Html.Label("", ViewBag.Flats[i].personalAccount, htmlAttributes: new { @class = "control-label col-md-5" })
+                    </td>
+                    <td>
+                        @Html.Label("", ViewBag.Flats[i].numberOfRegisteredResidents.ToString(), htmlAttributes: new { @class = "control-label col-md-5" })
+                    </td>
+                    <td>
+                        @Html.Label("", ViewBag.Flats[i].numberOfOwners.ToString(), htmlAttributes: new { @class = "control-label col-md-5" })
+                    </td>
+                    <td class="table-light">
+                        <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-controller="Flat" asp-action="Details" asp-route-id="@ViewBag.Flats[i].id">Подробнее</a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    }
+    else
+    {
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.Label("", "Отсутствуют", htmlAttributes: new { @class = "fw-normal"})
+            </dt>
+        </dl>
+    }
+
+</div>
+
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

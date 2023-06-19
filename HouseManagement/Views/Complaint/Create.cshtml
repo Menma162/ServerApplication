@@ -1,0 +1,86 @@
+﻿@model HouseManagement.Models.Complaint
+
+@{
+    ViewBag.Title = "Создание";
+}
+
+<h2>Создание заявки</h2>
+
+@using (Html.BeginForm("Create", "Complaint", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="text-danger">
+            @ViewBag.Message
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <br>
+        <div class="fw-bold fst-italic">
+            @Html.DisplayNameFor(model => model.date)
+            @Html.Label("", ViewBag.DateNow, htmlAttributes: new { @class = "control-label font-weight-normal"})
+        </div>
+
+        <br />
+        <div class="form-group">
+            @Html.Label("", "Номер квартиры" , htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("number", ViewBag.FlatsNumbers as SelectList, new { htmlAttributes = new { @class = "dropdown-toggle" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.description, 10,40, htmlAttributes: new {maxlength=2000, style="width: 100%; max-width: 100%;"})
+                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br>
+
+        <div class="mb-5 mt-4">
+            <h4>Добавление фото</h4>
+
+            <div class="containerParentFlexMany mt-4">
+                <div class="divForPhoto"><img id="imagePreview" width="200" height="160"></div>
+                <br>
+                <input type="file" accept="image/*" name="photo" id="imageInput" class="form-control form-control-sm" />
+                <br>
+                <input type="button" id="deleteImage" value="Удалить фото" onclick="delete()" />
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('imageInput').addEventListener('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('imagePreview').setAttribute('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            });
+        </script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#deleteImage").click(function () {
+                    document.getElementById('imagePreview').setAttribute('src', null);
+                    $('#imageInput').val('');
+                });
+            })
+        </script>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Создать" class="btn btn-dark" />
+            </div>
+        </div>
+        <br>
+    </div>
+}
+
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

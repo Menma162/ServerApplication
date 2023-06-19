@@ -1,0 +1,82 @@
+﻿@model HouseManagement.Models.SettingsService
+
+@{
+    ViewBag.Title = "Подробная информация";
+}
+
+<h2>Подробная информация о начисляемой услуге</h2>
+<br />
+<div>
+    <hr />
+    <br />
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.Label("", "Название услуги: " + ViewBag.NameService, htmlAttributes: new { @class = "control-label col-md-5" })
+        </div>
+    </div>
+
+    <br>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.valueRate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.valueRate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.paymentPeriod)
+        </dt>
+        <dd>
+            @Html.Label("", "" + ViewBag.Periods, htmlAttributes: new { @class = "control-label col-md-5" })
+        </dd>
+        @if (ViewBag.Normative == true)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.valueNormative)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.valueNormative)
+            </dd>
+        }
+        @if(ViewBag.CanHave == true)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.haveCounter)
+                @Html.DisplayFor(model => model.haveCounter)
+            </dt>
+        }
+        @if (ViewBag.TypeCounter != null && ViewBag.Deadlines != null && ViewBag.NameCounter != null)
+        {
+            <br>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("", "Название счетчика: " + ViewBag.NameCounter, htmlAttributes: new { @class = "control-label col-md-5" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("", "Тип счетчика: " + ViewBag.TypeCounter, htmlAttributes: new { @class = "control-label col-md-5" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("", "Сроки передачи показаний: " + ViewBag.Deadlines, htmlAttributes: new { @class = "control-label col-md-5" })
+                </div>
+            </div>
+        }
+
+        <br>
+        <div class="row">
+            <a class="nav-link text-dark bg-primary bg-opacity-50" style="width: 12rem" asp-area="" asp-controller="Service" asp-action="Edit" asp-route-id=@ViewBag.Id>Изменить услугу</a>
+        </div>
+    </dl>
+
+</div>
+
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

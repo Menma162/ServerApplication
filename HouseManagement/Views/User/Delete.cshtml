@@ -1,0 +1,48 @@
+﻿@model HouseManagement.Models.UserModel
+
+@{
+    ViewBag.Title = "Удаление";
+}
+
+<h2>Удаление пользователя</h2>
+<br />
+<h3>Вы уверены, что хотите удалить этого пользователя?</h3>
+<div>
+    <hr />
+    <div class="text-danger">
+        @ViewBag.Message
+    </div>
+
+    @Html.Hidden("id", ViewBag.Id as string)
+    <dl class="dl-horizontal">
+        @if(ViewBag.FullName != null)
+        {
+            <dt>
+                @Html.Label("", ViewBag.FullName, htmlAttributes: new { @class = "control-label col-md-5" })
+            </dt>
+        }
+        <dd>
+            @Html.Label("", "Email: " + ViewBag.Email, htmlAttributes: new { @class = "control-label col-md-5" })
+        </dd>
+        @Html.Label("", "Дома:" , htmlAttributes: new { @class = "control-label col-md-5" })
+        <dd>
+            @for(int i = 0; i < ViewBag.NamesHouses.Count; i++)
+            {
+                @Html.Label("", "--" + ViewBag.NamesHouses[i] , htmlAttributes: new { @class = "control-label col-md-5" })
+            }
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-dark" />
+        </div>
+    }
+</div>
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>

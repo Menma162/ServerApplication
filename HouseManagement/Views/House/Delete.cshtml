@@ -1,0 +1,36 @@
+﻿@model HouseManagement.Models.House
+
+@{
+    ViewBag.Title = "Удаление";
+}
+
+<h2>Удаление дома</h2>
+<br />
+<h3>Вы уверены, что хотите удалить этот дом?</h3>
+<div>
+    <hr />
+    <div class="text-danger">
+        @ViewBag.Message
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-dark" />
+        </div>
+    }
+</div>
+<br />
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>
